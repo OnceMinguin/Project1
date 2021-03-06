@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <fcntl.h>
-#include <ctype.h>
+#include <fcntl.h> // open file
+#include <ctype.h>  // isspace
+#include <unistd.h>  // read file
 
 int main(int argc, char **argv) {
     char fname[143];
@@ -14,7 +15,7 @@ int main(int argc, char **argv) {
     }
 
     char c;
-    while (read(fname, &c, 1) != '\0') {
+    while (read(fd, &c, 1) != '\0') { // read file
         printf("%c", c);
         if (isspace(c) == 0)
             continue;
