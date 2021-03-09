@@ -25,7 +25,7 @@ int printword(int line, int count, int maxPerLine, char* word, char c) {
 }
 
 int main(int argc, char **argv) {
-    struct dirent *pDrent;
+    struct dirent *pDirent;
     char fname[143];
     int ftype = 100;
 
@@ -37,13 +37,13 @@ int main(int argc, char **argv) {
     if (argc > 2) {
         ftype = 0; // neither
     } else {
-        if (fd != -1) { // file found
-            ftype = 1;
+        if (directory != NULL) { // file found
+            ftype = 2;
         } else {
-            if (directory == NULL){
+            if (fd == -1){
                 return EXIT_FAILURE;
             }
-            ftype = 2;
+            ftype = 1;
         }
     }
 
@@ -79,10 +79,16 @@ int main(int argc, char **argv) {
         }
         line = printword(line, count, maxPerLine, word, c);
     } else if (ftype == 2) {
-        while (pDirent = readdir(directory)) != NULL) {
+        while ((pDirent = readdir(directory)) != NULL) {
             printf("[%s]\n", pDirent->d_name);
+            fd = open(pDirent->d_name, O_RDONLY);
+            strcpy(fname, strcat("wrap.", pDirent->d_name));
+            int fd = open(fname, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+            sz = write(fd, "hello geeks\n", strlen("hello geeks\n"));
         }
     }
+    close(fd);
+    close(directory);
     return EXIT_SUCCESS;
 }
 
