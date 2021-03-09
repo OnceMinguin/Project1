@@ -5,6 +5,22 @@
 #include <ctype.h>  // isspace
 #include <unistd.h>  // read file
 
+int printword(int line, int count, char* word, char c) {
+    line += count;  // total of chars in the line
+    if (line > maxPerLine) {// if exceeds limit, go to next line
+        printf("\n");
+        line = 0;
+    }
+    for (int i = 0; i < count; i++) { // print word
+        printf("%c", word[i]);
+    }
+    if(c != '\n')
+        printf("%c", c); // print space character
+    else
+        printf(" ");
+    return (++line); // add to chars in line to account for space
+}
+
 int main(int argc, char **argv) {
     char fname[143];
     //printf("Enter filename :");
@@ -28,7 +44,7 @@ int main(int argc, char **argv) {
         }
         word[count] = c;    // create word
         if (isspace(c) != 0) { // if space go in here
-            line += count;  // total of chars in the line
+/*            line += count;  // total of chars in the line
             if (line > maxPerLine) {// if exceeds limit, go to next line
                 printf("\n");
                 line = 0;
@@ -40,7 +56,8 @@ int main(int argc, char **argv) {
                 printf("%c", c); // print space character
             else
                 printf(" ");
-            line++; // add to chars in line to account for space
+            line++; // add to chars in line to account for space */
+            line = printword(line, count, word, c);
             count = 0; // reset counter for word
             continue;
         }
