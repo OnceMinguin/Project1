@@ -1,3 +1,5 @@
 Name: Andy Li, Henry Lin
 Netid: al1253, hjl45
-Testing strategy:
+Testing strategy: We created a text file that contains the sample text
+provided in the pdf for the project. Then, we used gcc on our ww.c to test our file with the aforementioned
+text document by using ./a.out test.txt. 

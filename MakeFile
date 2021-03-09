@@ -1,17 +1,14 @@
-CC = gcc
+OUTPUT=first
+CFLAGS=-g -Wall -fsanitize=address -std=c99
+LFLAGS=-lm
 
-# compiler flags:
-#  -g    adds debugging information to the executable file
-#  -Wall turns on most, but not all, compiler warnings
-CFLAGS  = -g -Wall
+%: %.c %.h
+	gcc $(CFLAGS) -o $@ $< $(LFLAGS)
 
-# the build target executable:
-ww = ww.c
+%: %.c
+	gcc $(CFLAGS) -o $@ $< $(LFLAGS)
 
-all: $ww
-
-$ww: $ww.c
-    $(CC) $(CFLAGS) -o $ww $ww.c
+all: $(OUTPUT)
 
 clean:
-    $(RM) $ww
+	rm -f *.o $(OUTPUT)
