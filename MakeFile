@@ -12,3 +12,5 @@ all: $(OUTPUT)
 
 clean:
 	rm -f *.o $(OUTPUT)
+
+#make ww to call make on the c file.
