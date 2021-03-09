@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
     int fd = open(fname, O_RDONLY);  // check file
     DIR* directory = opendir(fname); // check dir
 
-    if (argc > 2) {
+    if (argc > 3) {
         ftype = 0; // neither
     } else {
         if (directory != NULL) { // file found
@@ -81,14 +81,62 @@ int main(int argc, char **argv) {
     } else if (ftype == 2) {
         while ((pDirent = readdir(directory)) != NULL) {
             printf("[%s]\n", pDirent->d_name);
-            fd = open(pDirent->d_name, O_RDONLY);
-            strcpy(fname, strcat("wrap.", pDirent->d_name));
-            int fd = open(fname, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-            sz = write(fd, "hello geeks\n", strlen("hello geeks\n"));
+
+            char temp[100];
+            strcpy(temp, fname);
+            strcat(temp, "/");
+            strcat(temp, pDirent->d_name)
+            fd = open(temp, O_RDONLY);
+            if (fd == -1)
+                continue;
+
+            char temp2[100];
+            strcpy(temp2, fname);
+            strcat(temp2, "/wrap.");
+            strcat(temp2, pDirent->d_name);
+            int fd1 = open(temp2, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+
+
+            while (read(fd, &c, 1) != '\0') { // read file
+                    if (count == 0 && c == '\n') { // retains empty line
+                        line = 0;
+                        write(fd1,"\n\n", 2);
+                        continue;
+                    }
+                    word[count] = c;    // create word
+                    if (isspace(c) != 0) { // if space go in here
+                        line += count;  // total of chars in the line
+                        if (line > maxPerLine) {// if exceeds limit, go to next line
+                            write(fd1, "\n", 1);
+                            line = count;
+                        }
+                        for (int i = 0; i < count; i++) { // print word
+                            write(fd1, word[i], 1);
+                        }
+                        if(c != '\n' && isspace(c) != 0)
+                            write(fd1, c, 1); // print space character
+                        else if (isspace(c) != 0)
+                            write(fd1, " ", 1);
+                        line++; // add to chars in line
+                        count = 0; // reset counter for word
+                        continue;
+                    }
+                    count++;
+                }
+                line += count;  // total of chars in the line
+                if (line > maxPerLine) {// if exceeds limit, go to next line
+                    write(fd1, "\n", 1);
+                    line = count;
+                }
+                for (int i = 0; i < count; i++) { // print word
+                    write(fd1, c, 1)
+                }
+            }
         }
     }
     close(fd);
-    close(directory);
+    close(fd1);
+    closedir(directory);
     return EXIT_SUCCESS;
 }
 
