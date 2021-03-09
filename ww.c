@@ -5,8 +5,8 @@
 #include <ctype.h>  // isspace
 #include <unistd.h>  // read file
 #include <sys/types.h>
-//#include <dirent.h>
-//#include <errno.h>
+#include <dirent.h>
+#include <errno.h>
 
 int printword(int line, int count, int maxPerLine, char* word, char c) {
     line += count;  // total of chars in the line
@@ -29,21 +29,22 @@ int main(int argc, char **argv) {
     int ftype = 100;
 
     int maxPerLine = atoi(argv[1]);
+    strcpy(fname, argv[2]);
+    int fd = open(fname, O_RDONLY);  // check file
+    DIR* directory = opendir(fname); // check dir
 
     if (argc > 2) {
         ftype = 0; // neither
     } else {
-        strcpy(fname, argv[2]);
-        int fd = open(fname, O_RDONLY);  // check file
         if (fd != -1) { // file found
             ftype = 1;
             break;
+        } else {
+            if (directory == NULL){
+                return EXIT_FAILURE;
+            }
+            ftype = 2;
         }
-        DIR* directory = opendir(fname); // check dir
-        if (directory == NULL){
-            return EXIT_FAILURE;
-        }
-        ftype = 2;
     }
 
     char c;
@@ -52,10 +53,10 @@ int main(int argc, char **argv) {
     if (ftype == 0){    // FOR COMMAND LINE
         for (int i = 2; i < argc; i++) {
             strcpy(word, argv[i]);
-            line += word.length;  // total of chars in the line
+            line += strlen(word);  // total of chars in the line
             if (line > maxPerLine) {    // if exceeds limit, go to next line
                 printf("\n");
-                line = word.length;
+                line = strlen(word);
             }
             printf("%s", argv[i]);
             printf(" ");
