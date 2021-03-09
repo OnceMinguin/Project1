@@ -26,39 +26,58 @@ int printword(int line, int count, int maxPerLine, char* word, char c) {
 
 int main(int argc, char **argv) {
     char fname[143];
-    //printf("Enter filename :");
-    //scanf("%s", fname);
+    int ftype = 100;
 
     int maxPerLine = atoi(argv[1]);
-    strcpy(fname, argv[2]);
-    int fd = open(fname, O_RDONLY);  // Open file
-    if (fd == -1) { // File dead
-        return EXIT_FAILURE;
-    }
-    DIR* directory = opendir(fname);
-    if (directory == NULL){
-        return EXIT_FAILURE;
+
+    if (argc > 2) {
+        ftype = 0; // neither
+    } else {
+        strcpy(fname, argv[2]);
+        int fd = open(fname, O_RDONLY);  // check file
+        if (fd != -1) { // file found
+            ftype = 1;
+            break;
+        }
+        DIR* directory = opendir(fname); // check dir
+        if (directory == NULL){
+            return EXIT_FAILURE;
+        }
+        ftype = 2;
     }
 
     char c;
     char word[30];
     int count = 0, line = 0;
-    while (read(fd, &c, 1) != '\0') { // read file
-        if (count == 0 && c == '\n') { // retains empty line
-            line = 0;
-            printf("\n\n");
-            continue;
+    if (ftype == 0){    // FOR COMMAND LINE
+        for (int i = 2; i < argc; i++) {
+            strcpy(word, argv[i]);
+            line += word.length;  // total of chars in the line
+            if (line > maxPerLine) {    // if exceeds limit, go to next line
+                printf("\n");
+                line = word.length;
+            }
+            printf("%s", argv[i]);
+            printf(" ");
+            line++;
         }
-        word[count] = c;    // create word
-        if (isspace(c) != 0) { // if space go in here
-            line = printword(line, count, maxPerLine, word, c);
-            count = 0; // reset counter for word
-            continue;
+    } else if (ftype == 1) { // FOR FILES
+        while (read(fd, &c, 1) != '\0') { // read file
+            if (count == 0 && c == '\n') { // retains empty line
+                line = 0;
+                printf("\n\n");
+                continue;
+            }
+            word[count] = c;    // create word
+            if (isspace(c) != 0) { // if space go in here
+                line = printword(line, count, maxPerLine, word, c);
+                count = 0; // reset counter for word
+                continue;
+            }
+            count++;
         }
-        count++;
+        line = printword(line, count, maxPerLine, word, c);
     }
-    line = printword(line, count, maxPerLine, word, c);
-
     return EXIT_SUCCESS;
 }
 
