@@ -25,6 +25,7 @@ int printword(int line, int count, int maxPerLine, char* word, char c) {
 }
 
 int main(int argc, char **argv) {
+    struct dirent *pDrent;
     char fname[143];
     int ftype = 100;
 
@@ -38,7 +39,6 @@ int main(int argc, char **argv) {
     } else {
         if (fd != -1) { // file found
             ftype = 1;
-            break;
         } else {
             if (directory == NULL){
                 return EXIT_FAILURE;
@@ -78,6 +78,10 @@ int main(int argc, char **argv) {
             count++;
         }
         line = printword(line, count, maxPerLine, word, c);
+    } else if (ftype == 2) {
+        while (pDirent = readdir(directory)) != NULL) {
+            printf("[%s]\n", pDirent->d_name);
+        }
     }
     return EXIT_SUCCESS;
 }
