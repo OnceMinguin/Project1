@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
     //scanf("%s", fname);
 
     int maxPerLine = atoi(argv[1]);
-    fname = argv[2];
+    strcpy(fname, argv[2]);
     int fd = open(fname, O_RDONLY);  // Open file
     if (fd == -1) { // File dead
         return EXIT_FAILURE;
