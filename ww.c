@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
     char word[30];
     int count = 0, line = 0;
     while (read(fd, &c, 1) != '\0') { // read file
-        if (count == 0 && c == '\n') {
+        if (count == 0 && c == '\n') { // retains empty line
             line = 0;
             printf("\n\n");
             continue;
@@ -61,4 +61,4 @@ int main(int argc, char **argv) {
 
 // make sure we print last word based on parameter whether that be with the line before or on a new line after DONE
 // when combining lines, need to make sure we add a space since we are getting rid of the \n DONE
-// somehow keep track of full line breaks and retain them
+// somehow keep track of full line breaks and retain them DONE
