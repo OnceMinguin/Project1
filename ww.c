@@ -4,21 +4,24 @@
 #include <fcntl.h> // open file
 #include <ctype.h>  // isspace
 #include <unistd.h>  // read file
+#include <sys/types.h>
+//#include <dirent.h>
+//#include <errno.h>
 
-int printword(int line, int count, char* word, char c) {
+int printword(int line, int count, int maxPerLine, char* word, char c) {
     line += count;  // total of chars in the line
     if (line > maxPerLine) {// if exceeds limit, go to next line
         printf("\n");
-        line = 0;
+        line = count;
     }
     for (int i = 0; i < count; i++) { // print word
         printf("%c", word[i]);
     }
-    if(c != '\n')
+    if(c != '\n' && isspace(c) != 0)
         printf("%c", c); // print space character
-    else
+    else if (isspace(c) != 0)
         printf(" ");
-    return (++line); // add to chars in line to account for space
+    return (line++); // add to chars in line to account for space
 }
 
 int main(int argc, char **argv) {
@@ -30,6 +33,10 @@ int main(int argc, char **argv) {
     strcpy(fname, argv[2]);
     int fd = open(fname, O_RDONLY);  // Open file
     if (fd == -1) { // File dead
+        return EXIT_FAILURE;
+    }
+    DIR* directory = opendir(fname);
+    if (directory == NULL){
         return EXIT_FAILURE;
     }
 
@@ -44,34 +51,13 @@ int main(int argc, char **argv) {
         }
         word[count] = c;    // create word
         if (isspace(c) != 0) { // if space go in here
-/*            line += count;  // total of chars in the line
-            if (line > maxPerLine) {// if exceeds limit, go to next line
-                printf("\n");
-                line = 0;
-            }
-            for (int i = 0; i < count; i++) { // print word
-                printf("%c", word[i]);
-            }
-            if(c != '\n')
-                printf("%c", c); // print space character
-            else
-                printf(" ");
-            line++; // add to chars in line to account for space */
-            line = printword(line, count, word, c);
+            line = printword(line, count, maxPerLine, word, c);
             count = 0; // reset counter for word
             continue;
         }
         count++;
     }
-
-     line += count;  // this is to print the last line correctly >:D
-     if (line > maxPerLine) {
-        printf("\n");
-        line = 0;
-     }
-     for (int i = 0; i < count; i++) {
-         printf("%c", word[i]);
-     }
+    line = printword(line, count, maxPerLine, word, c);
 
     return EXIT_SUCCESS;
 }
