@@ -1,7 +1,7 @@
 Name: Andy Li, Henry Lin
 Netid: al1253, hjl45
-Testing strategy: We created a text file that contains the sample text
-provided in the pdf for the project and used our own test files that we ran the code with
-to account for miscellaneous edge cases for instance multiple tabs and multiple newlines.
-Then, we also created a directory that contained test files to test the if the file name is a directory
-condition. We created a makefile and used make then ./ww or function
+Testing strategy: To determine our program was correct, we created multiple text files that included the sample text
+provided in the pdf for the project to account for many edge cases. For instance, we accounted for an excess of new lines and tabs. Then, to test for the directory name condition, we created a directory with its respective test files and tested our program. For instance, we included a 10-page essay in the directory, song
+lyrics, and our personally crafted signature text document. Errors we encountered while testing the code included an output of purely Chinese text when running our program on a directory, an excess of spaces after every line in both the command line, output file, and directory files,
+and a surplus of newlines. To resolve these issues for our Chinese text issue, we reset our word length counter.  Next, we added spaces ourselves for the excess of spaces instead of reading it from the file and subsequently incremented word length count after adding it. Then, for the tab error, we checked if there is a tab or any newline space characters in the text document we were wrapping by using the isspace function, we would skip it if the word length counter is 0. Therefore, all tabs in a document preceding a sentence like an essay would be
+deleted. Lastly, for the excess of newlines, we implemented a counter that kept track of the number of newlines in the text document, and for any quantity of newlines greater or equal to 1, we always added one newline.
