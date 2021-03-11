@@ -1,16 +1,4 @@
-OUTPUT=first
-CFLAGS=-g -Wall -fsanitize=address -std=c99
-LFLAGS=-lm
-
-%: %.c %.h
-	gcc $(CFLAGS) -o $@ $< $(LFLAGS)
-
-%: %.c
-	gcc $(CFLAGS) -o $@ $< $(LFLAGS)
-
-all: $(OUTPUT)
-
+all:
+	gcc -Wall -Werror -fsanitize=address ww.c -o ww -lm
 clean:
-	rm -f *.o $(OUTPUT)
-
-#make ww to call make on the c file.
+	rm -f ww
