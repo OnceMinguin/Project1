@@ -3,5 +3,5 @@ Netid: al1253, hjl45
 Testing strategy: We created a text file that contains the sample text
 provided in the pdf for the project and used our own test files that we ran the code with
 to account for miscellaneous edge cases for instance multiple tabs and multiple newlines.
-Then, we also created a directory that contained their respective new files to test the if the file name is a directory
+Then, we also created a directory that contained test files to test the if the file name is a directory
 condition. We created a makefile and used make then ./ww or function
