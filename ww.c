@@ -79,7 +79,7 @@ int main(int argc, char **argv) {
                 count++;
             } else if (isspace(c) != 0) { // if space go in here
                 line = printword(line, count, maxPerLine, word, c);
-                if (c == '\n')	// newLine Bool
+                if (c == '\n')    // newLine Bool
                     newLine = 1;
                 count = 0; // reset counter for word
                 continue;
@@ -133,7 +133,7 @@ int main(int argc, char **argv) {
                     } else
                         line += count;
 
-                    if (c == '\n')	// newLine Bool
+                    if (c == '\n')    // newLine Bool
                         newLine = 1;
 
                     write(fd1, word, count); // print word
@@ -245,7 +245,7 @@ int main(int argc, char **argv) {
                 count++;
             } else if (isspace(c) != 0) { // if space go in here
                 line = printword(line, count, maxPerLine, word, c);
-                if (c == '\n')	// newLine Bool
+                if (c == '\n')    // newLine Bool
                     newLine = 1;
                 count = 0; // reset counter for word
                 continue;
@@ -299,7 +299,7 @@ int main(int argc, char **argv) {
                     } else
                         line += count;
 
-                    if (c == '\n')	// newLine Bool
+                    if (c == '\n')    // newLine Bool
                         newLine = 1;
 
                     write(fd1, word, count); // print word
@@ -329,3 +329,5 @@ int main(int argc, char **argv) {
     closedir(directory);
     return EXIT_SUCCESS;
 }
+
+
